@@ -1,6 +1,13 @@
 const container = document.querySelector(".container");
 const btn = document.querySelector("#btn");
 const reset = document.querySelector("#reset");
+const size = document.querySelector("#size");
+const colorPicker = document.querySelector("#color_picker");
+const rainbow = document.querySelector("#rainbow");
+const color = document.querySelector("#color");
+const eraser = document.querySelector("#eraser");
+let currentMode = "color";
+const rangeValue = document.querySelector(".size_value");
 
 // -- Function that create divs and color it on hover
 const createDivs = (row, column) => {
@@ -8,10 +15,16 @@ const createDivs = (row, column) => {
     const div = document.createElement("div");
     div.setAttribute(
       "style",
-      "border: 1px solid black; width: 24px;height: 25px;"
+      "width: 24px;height: 25px; background-color: white;"
     );
     div.addEventListener("mouseover", () => {
-      div.style.backgroundColor = createRandomColor();
+      if (currentMode === "color") {
+        div.style.backgroundColor = colorPicker.value;
+      } else if (currentMode === "rainbow") {
+        div.style.backgroundColor = createRandomColor();
+      } else {
+        div.style.backgroundColor = "white";
+      }
     });
     container.appendChild(div);
   }
@@ -19,15 +32,15 @@ const createDivs = (row, column) => {
 
 // -- Firing the creation function on start btn click
 btn.addEventListener("click", () => {
-  const value = prompt("What is the number of squares in row");
-  if (value >= 2 && value < 100) {
+  const value = size.value;
+  if (value >= 2 && value <= 64) {
     container.setAttribute(
       "style",
-      `display: flex; flex-wrap: wrap; width: ${value * 26}px;`
+      `display: flex; flex-wrap: wrap; width: ${value * 25}px;`
     );
     createDivs(value, value);
   } else {
-    alert("Please Enter a number between 2 and 100");
+    alert("Please Enter a number between 2 and 64");
   }
 });
 
@@ -44,4 +57,23 @@ const createRandomColor = () => {
   return `rgba(${r},${g},${b})`;
 };
 
-// -- Create black darken background
+// -- Firing the rainbow mode
+rainbow.addEventListener("click", () => {
+  currentMode = "rainbow";
+});
+
+// -- Firing the color mode
+color.addEventListener("click", () => {
+  currentMode = "color";
+});
+
+// -- Firing the eraser mode
+eraser.addEventListener("click", () => {
+  currentMode = "eraser";
+});
+
+// -- Showing size on screen
+rangeValue.textContent = `${size.value} X ${size.value}`;
+size.addEventListener("change", () => {
+  rangeValue.textContent = `${size.value} X ${size.value}`;
+});
