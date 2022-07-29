@@ -33,15 +33,11 @@ const createDivs = (row, column) => {
 // -- Firing the creation function on start btn click
 btn.addEventListener("click", () => {
   const value = size.value;
-  if (value >= 2 && value <= 64) {
-    container.setAttribute(
-      "style",
-      `display: flex; flex-wrap: wrap; width: ${value * 25}px;`
-    );
-    createDivs(value, value);
-  } else {
-    alert("Please Enter a number between 2 and 64");
-  }
+  container.setAttribute(
+    "style",
+    `display: flex; flex-wrap: wrap; width: ${value * 25}px;`
+  );
+  createDivs(value, value);
 });
 
 // -- Reseting Everything to start over
